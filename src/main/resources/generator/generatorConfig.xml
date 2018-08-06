@@ -29,7 +29,7 @@
             <property name="targetPojoDtoPackage" value="${targetPojoDtoPackage}"/>
             <property name="idType" value="${idType}"/>
             <property name="projectPackage" value="${projectPackage}"/>
-
+            <property name="author" value="${author}"/>
         </plugin>
         <!-- jdbc连接 -->
         <jdbcConnection driverClass="${datasource.driverClassName}"
