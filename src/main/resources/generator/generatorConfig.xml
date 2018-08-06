@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <properties resource="generator/config.properties"/>
+    <!-- 一个数据库一个context -->
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!--useMapperCommentGenerator 是否使用通用 Mapper 提供的注释工具，默认 true 使用，这样在生成代码时会包含字段的注释（目前只有 mysql 和 oracle 支持），设置 false 后会用默认的，或者你可以配置自己的注释插件。-->
+        <property name="useMapperCommentGenerator" value="true"/>
+        <plugin type="${mapper.plugin}">
+            <property name="mappers" value="${mapper.mapper}"/>
+            <!--caseSensitive 是否区分大小写，默认值 false。如果数据库区分大小写，这里就需要配置为 true，这样当表名为 USER 时，会生成 @Table(name = "USER") 注解，否则使用小写 user 时会找不到表。-->
+            <property name="caseSensitive" value="true"/>
+            <!--forceAnnotation 是否强制生成注解，默认 false，如果设置为 true，不管数据库名和字段名是否一致，都会生成注解（包含 @Table 和 @Column）。-->
+            <property name="forceAnnotation" value="true"/>
+            <!--beginningDelimiter 和 endingDelimiter 开始和结束分隔符，对于有关键字的情况下适用。-->
+            <property name="beginningDelimiter" value="`"/>
+            <property name="endingDelimiter" value="`"/>
+        </plugin>
+        <plugin type="com.songaw.mybatis3plugins.ServiceControllerPlugin" >
+            <property name="targetMapperPackage" value="${targetMapperPackage}"/>
+            <property name="targetServicePackage" value="${targetServicePackage}"/>
+            <property name="targetModelPackage" value="${targetModelPackage}"/>
+            <property name="targetControllerPackage" value="${targetControllerPackage}"/>
+            <property name="targetPojoVoPackage" value="${targetPojoVoPackage}"/>
+            <property name="targetPojoDtoPackage" value="${targetPojoDtoPackage}"/>
+            <property name="idType" value="${idType}"/>
+            <property name="projectPackage" value="${projectPackage}"/>
+
+        </plugin>
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${datasource.driverClassName}"
+                        connectionURL="${datasource.url}"
+                        userId="${datasource.username}"
+                        password="${datasource.password}">
+        </jdbcConnection>
+        <!-- 生成实体类地址 -->
+        <javaModelGenerator targetPackage="${targetModelPackage}" targetProject="${targetJavaProject}">
+        </javaModelGenerator>
+        <!-- 生成mapxml文件 -->
+        <sqlMapGenerator targetPackage="${targetXMLPackage}" targetProject="${targetResourcesProject}">
+        </sqlMapGenerator>
+        <!-- 生成mapxml对应client，也就是接口dao|mapper -->
+        <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}"
+                             type="XMLMAPPER"/>
+
+     <table tableName="t_employee" domainObjectName="Employee"></table>
+
+
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.songaw.generator.modules.auths.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.songaw.generator.modules.auths.entity.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="REAL_NAME" jdbcType="VARCHAR" property="realName" />
+    <result column="UPDATE_USER" jdbcType="BIGINT" property="updateUser" />
+    <result column="UPDATE_TIME" jdbcType="BIGINT" property="updateTime" />
+    <result column="INSERT_USER" jdbcType="BIGINT" property="insertUser" />
+    <result column="INSERT_TIME" jdbcType="BIGINT" property="insertTime" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+  </resultMap>
+
+</mapper>

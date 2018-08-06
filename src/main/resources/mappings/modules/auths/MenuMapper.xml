@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.songaw.generator.modules.auths.mapper.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.songaw.generator.modules.auths.entity.Menu">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="parent_ids" jdbcType="VARCHAR" property="parentIds" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="link" jdbcType="VARCHAR" property="link" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="menu_type" jdbcType="CHAR" property="menuType" />
+    <result column="left_show" jdbcType="BIT" property="leftShow" />
+    <result column="is_show" jdbcType="BIT" property="isShow" />
+    <result column="UPDATE_USER" jdbcType="BIGINT" property="updateUser" />
+    <result column="UPDATE_TIME" jdbcType="BIGINT" property="updateTime" />
+    <result column="INSERT_USER" jdbcType="BIGINT" property="insertUser" />
+    <result column="INSERT_TIME" jdbcType="BIGINT" property="insertTime" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+  </resultMap>
+
+</mapper>

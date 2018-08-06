@@ -1,0 +1,401 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">      <!--声明Thymeleaf命名空间-->
+<head>
+    <title>菜单配置</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" ></link>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">系统后台管理</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav ">
+                <li class="active"><a href="role.html">角色管理</a></li>
+                <li ><a href="menu.html">菜单管理</a></li>
+                <li><a href="apis.html">API管理</a></li>
+
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container-fluid">
+
+    <ol class="breadcrumb">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">权限管理</a></li>
+        <li class="active">角色管理</li>
+    </ol>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h1>角色管理</h1>
+            <a class="btn btn-default" id="tb"  style="margin-bottom: 10px;" role="button">新增</a>
+            <table id="table" class="table table-bordered table-striped">
+                <tr>
+                    <th>角色名称</th>
+                    <th>路由</th>
+                    <th>父级菜单</th>
+                    <th>父级菜单树</th>
+                    <th>排序</th>
+                    <th>菜单类型</th>
+                    <th>是否左侧(1是0否)</th>
+                    <th>icon</th>
+                    <th>操作</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 880px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">新增修改菜单</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="id">
+                <form class="form-horizontal" id="menuForm">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">菜单名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="name"  id="name" placeholder="菜单名称" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="link" class="col-sm-2 control-label">路由</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="link"  id="link" placeholder="路由" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="parentId" class="col-sm-2 control-label">父级菜单</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="parentId"  id="parentId" placeholder="父级菜单ID" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="parentId" class="col-sm-2 control-label">父级菜单s</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="parentIds"  id="parentIds" placeholder="父级菜单IDs" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sort" class="col-sm-2 control-label">sort</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="sort"  id="sort" placeholder="排序" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="menuType0" class="col-sm-2 control-label">菜单类型</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="menuType" id="menuType0" value="0" checked> 普通菜单
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="menuType" id="menuType1" value="1"> 日期框
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="menuType" id="menuType2" value="2"> 组合下拉框
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="leftShow" class="col-sm-2 control-label">是否左侧</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" name="leftShow"  id="leftShow"> 左侧显示
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isShow" class="col-sm-2 control-label">是否显示</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" name="isShow"  id="isShow" checked> 显示
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="icon" class="col-sm-2 control-label">icon</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="icon"  id="icon" placeholder="icon">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 30px">
+                        <label  class="col-sm-2 control-label">接口配置</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <select name="apis" id="multiselect" class="form-control" size="8" multiple="multiple">
+
+                            </select>
+                        </div>
+
+                        <div class="col-xs-2">
+                            <button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                            <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                            <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                            <button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                        </div>
+
+                        <div class="col-xs-5">
+                            <select name="to" id="multiselect_to" class="form-control" size="8" multiple="multiple">
+
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="saveMenu" class="btn btn-primary">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/multiselect.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+<script>
+    $('#multiselect').multiselect({
+        keepRenderingSort: true
+    });
+
+    function loadApis(){
+        $("#multiselect").html("");
+        $("#multiselect_to").html("");
+        $.ajax({
+            type: 'GET',
+            url: '/v1/apis/list',
+            dataType: 'json',
+            success:function(data){
+                if(data!=null&&data.data!=null&&data.code==200){
+                    var dataList=data.data;
+                    var html=$("#multiselect").html();
+                    var options="";
+                    for(var i=0;i<dataList.length;i++){
+                        options+='<option value="'+dataList[i].id+'">';
+                        options+=dataList[i].method+":"+dataList[i].path;
+                        options+='</option>';
+
+                    }
+                    html+=options;
+                    $("#multiselect").html(html);
+
+                }
+
+            }
+
+        });
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: '/v1/menus/list',
+        dataType: 'json',
+        success:function(data){
+            if(data!=null&&data.data!=null&&data.code==200){
+                var dataList=data.data;
+                var html=$("#table").html();
+                var tr="";
+                for(var i=0;i<dataList.length;i++){
+                    tr+='<tr>';
+                    tr+='<td>'+dataList[i].name;
+                    tr+='</td>';
+                    tr+='<td>'+dataList[i].link;
+                    tr+='</td>';
+                    tr+='<td>'+dataList[i].parentId;
+                    tr+='</td>';
+                    tr+='<td>'+dataList[i].parentIds;
+                    tr+='</td>';
+                    tr+='<td>'+dataList[i].sort;
+                    tr+='</td>';
+                    switch(dataList[i].menuType){
+                        case "0":
+                            tr+='<td>普通菜单';
+                            tr+='</td>';
+                            break;
+                        case "1":
+                            tr+='<td>日期框';
+                            tr+='</td>';
+                            break;
+                        case "2":
+                            tr+='<td>组合下拉框';
+                            tr+='</td>';
+                            break;
+                        default:
+                            tr+='<td>普通菜单'+dataList[i].menuType;
+                            tr+='</td>';
+                            break;
+                    }
+
+                    tr+='<td>'+dataList[i].leftShow;
+                    tr+='</td>';
+                    tr+='<td>'+dataList[i].icon;
+                    tr+='</td>';
+                    tr+='<td><button class="btn btn-default" onclick="updateMenu(\''+dataList[i].id+'\')" type="button">修改</button>';
+                    tr+='<button class="btn btn-default" onclick="deleteMenu(\''+dataList[i].id+'\')" type="button">删除</button>';
+                    tr+='</td>';
+                    tr+='</tr>';
+
+                }
+                html+=tr;
+                $("#table").html(html);
+
+            }
+        }
+    });
+
+    $("#tb").click(function(){
+        loadApis();
+        $("#id").val("");
+        // "apis": apis,
+        $("#icon").val("");
+        $("#name").val("");
+        $("#parentId").val("");
+        $("#parentIds").val("");
+        $("#sort").val("");
+        $("#link").val("");
+        $("#isShow").val("on");
+        $("#leftShow").val("");
+        $("#multiselect_to").html("");
+        $('#myModal').modal('show')
+    });
+    $('#menuForm').bootstrapValidator();
+    $("#saveMenu").click(function(){
+        var form =$("#menuForm");
+        form.data("bootstrapValidator").validate(); // 手动验证
+        var isValid = form.data("bootstrapValidator").isValid(); // 是否验证成功
+        if(isValid){
+
+        }else{
+            alert("请检查")
+            return;
+        }
+        var apis = $("#multiselect_to option").map(function(){
+            return $(this).val();
+        }).get();
+        var data={
+            "id":$("#id").val(),
+            "apis": apis,
+            "icon": $("#icon").val(),
+            "isShow": $("#isShow").val()=="on"?true:false,
+            "leftShow": $("#leftShow").val()=="on"?true:false,
+            "link":$("#link").val(),
+            "menuType": $("input[name='menuType']:checked").val(),
+            "name": $("#name").val(),
+            "parentId": $("#parentId").val(),
+            "parentIds": $("#parentIds").val(),
+            "sort": $("#sort").val(),
+        };
+        var mtype="POST";
+        if($("#id").val()!=null&&$("#id").val()!=''){
+            mtype="PUT";
+        }
+
+        $.ajax({
+            type: mtype,
+            url: '/v1/menus',
+            dataType: 'json',
+            data:JSON.stringify(data),
+            contentType: "application/json",
+            success:function(data){
+                if(data!=null&&data.data!=null&&data.code==200){
+                    alert("保存成功");
+                    $('#myModal').modal('hide');
+                    location.href="/menu.html";
+                }
+
+            }
+        });
+    });
+    function updateMenu(id){
+        loadApis();
+        $("#id").val("");
+        // "apis": apis,
+        $("#icon").val("");
+        $("#name").val("");
+        $("#parentId").val("");
+        $("#parentIds").val("");
+        $("#sort").val("");
+        $("#link").val("");
+        $("#isShow").val("on");
+        $("#leftShow").val("");
+        $("#multiselect_to").html("");
+        $.ajax({
+            type: 'GET',
+            url: '/v1/menus/'+id,
+            dataType: 'json',
+            success:function(data){
+                if(data!=null&&data.data!=null&&data.code==200) {
+                    $("#id").val(id);
+                    // "apis": apis,
+                    $("#icon").val(data.data.icon);
+                    $("#name").val(data.data.name);
+                    $("#parentId").val(data.data.parentId);
+                    $("#parentIds").val(data.data.parentIds);
+                    $("#sort").val(data.data.sort);
+                    $("#link").val(data.data.link);
+                    if (data.data.isShow == "true" || data.data.isShow == true) {
+                        $("#isShow").val("on");
+                    }else{
+                        $("#isShow").val("");
+                    }
+                    if (data.data.leftShow == "true" || data.data.leftShow == true) {
+                        $("#leftShow").val("on");
+                    }else{
+                        $("#leftShow").val("");
+                    }
+
+                    if (data.data.apis) {
+                        $("#multiselect option").map(function () {
+                            for(var i=0;i<data.data.apis.length;i++){
+                                if($(this).val()==data.data.apis[i].id){
+                                    var html=$(this).prop("outerHTML");
+                                    $("#multiselect_to").append(html);
+                                    $(this).remove();
+                                }
+                            }
+
+                        });
+                    }
+                }
+            }
+        });
+        $('#myModal').modal('show')
+    }
+    function deleteMenu(id){
+        if(confirm("确定要删除菜单和它的子菜单吗？"))
+        {
+            $.ajax({
+                type: 'DELETE',
+                url: '/v1/menus/'+id,
+                dataType: 'json',
+                success:function(data){
+                    if(data!=null&&data.code==200) {
+                        alert("删除成功！")
+                        location.href="/menu.html";
+                    }else{
+                        alert("删除失败！"+data.message)
+                    }
+                }
+            });
+        }
+
+
+    }
+</script>
+</body>
+</html>

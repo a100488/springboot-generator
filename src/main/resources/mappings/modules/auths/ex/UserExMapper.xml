@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.songaw.generator.modules.auths.mapper.UserExMapper">
+
+
+    <resultMap id="BaseResultExMap" type="com.songaw.generator.modules.auths.pojo.dto.UserDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="BIGINT" property="id" />
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+        <result column="REAL_NAME" jdbcType="VARCHAR" property="realName" />
+
+    </resultMap>
+
+
+    <select id="findUsers" resultMap="BaseResultExMap">
+        select
+        t.ID,
+        t.USER_NAME,
+        t.PASSWORD,
+        t.REAL_NAME
+        from t_user t
+        <trim prefix="where" prefixOverrides="and">
+            <if test="userName != null">
+                AND T.USER_NAME LIKE CONCAT('%', #{userName,jdbcType=VARCHAR}, '%')
+            </if>
+            AND t.delete_flag = '0'
+        </trim>
+    </select>
+
+    <resultMap id="BaseResultExMap2" type="com.songaw.generator.modules.auths.pojo.dto.UserDtoTest2"
+               extends="com.songaw.generator.modules.auths.mapper.UserMapper.BaseResultMap">
+    </resultMap>
+    <select id="findUsersTest2" resultMap="BaseResultExMap">
+        select
+        *
+        from t_user
+        <trim prefix="where" prefixOverrides="and">
+            <if test="userName != null">
+                AND USER_NAME LIKE CONCAT('%', #{userName,jdbcType=VARCHAR}, '%')
+            </if>
+            AND delete_flag = '0'
+        </trim>
+    </select>
+</mapper>

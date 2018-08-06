@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.songaw.generator.modules.auths.mapper.MenuExMapper">
+    <resultMap id="BaseResultExMap" type="com.songaw.generator.modules.auths.pojo.dto.MenuDto" extends="com.songaw.generator.modules.auths.mapper.BackendApiMapper.BaseResultMap">
+
+        <collection property="roles" column="id"
+                    ofType="com.songaw.generator.modules.auths.pojo.dto.RoleDto" select="getRolesByMenuId"/>
+         </resultMap>
+    <resultMap id="RolesBaseExResultMap" type="com.songaw.generator.modules.auths.pojo.dto.RoleDto" extends="com.songaw.generator.modules.auths.mapper.RoleMapper.BaseResultMap">
+
+    </resultMap>
+
+    <select id="getRolesByMenuId" resultMap="RolesBaseExResultMap" parameterType="String" >
+        select r.* from t_role r INNER JOIN t_role_menu rm on rm.role_id=r.id
+        where rm.menu_id= #{id}
+    </select>
+    <select id="findOneWithRolesById" resultMap="BaseResultExMap" >
+        select * from t_menu where id= #{id}
+    </select>
+
+
+   <!-- <resultMap id="MenuBaseExResultMap" type="com.songaw.generator.modules.auths.pojo.dto.MenuDto" extends="com.songaw.generator.modules.auths.mapper.MenuMapper.BaseResultMap">
+
+    </resultMap>
+
+
+    <select id="getAuthsByUserId" resultMap="MenuBaseExResultMap" parameterType="String" >
+        select * from t_menu where id in (select DISTINCT s1.menu_id from t_role_menu s1 join t_role s2 on s1.role_id=s2.id join t_user_role s3 on s3.role_id=s2.id join t_user u on u.id = s3.user_id and u.id =#{id} )
+
+    </select>-->
+    <insert id="insertBatchMenuJoinApi" >
+        insert into `t_menu_backend_api`(`menu_id`, `backend_api_id`)
+        values
+        <foreach collection="apis" item="item" index="index" separator=",">
+            (#{menuId}, #{item})
+        </foreach>
+    </insert>
+</mapper>

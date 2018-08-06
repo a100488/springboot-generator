@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.songaw.generator.modules.auths.mapper.BackendApiExMapper">
+    <resultMap id="BaseResultExMap" type="com.songaw.generator.modules.auths.pojo.dto.BackendApiDto" extends="com.songaw.generator.modules.auths.mapper.BackendApiMapper.BaseResultMap">
+
+        <collection property="menus" column="id"
+                    ofType="com.songaw.generator.modules.auths.pojo.dto.MenuDto" select="getMenusByBackendApiId"/>
+    </resultMap>
+    <resultMap id="MenuBaseExResultMap" type="com.songaw.generator.modules.auths.pojo.dto.MenuDto" extends="com.songaw.generator.modules.auths.mapper.MenuMapper.BaseResultMap">
+
+    </resultMap>
+
+
+
+    <select id="getMenusByBackendApiId" resultMap="MenuBaseExResultMap" parameterType="long" >
+        select * from t_menu where id in (select DISTINCT s1.menu_id from t_menu_backend_api s1 where  s1.backend_api_id =#{id} )
+    </select>
+    <select id="findByPathAndMethod" resultMap="BaseResultExMap" >
+        select
+        *
+        from t_backend_api t
+        where
+        t.path= #{path,jdbcType=VARCHAR}
+       AND t.method=#{method,jdbcType=VARCHAR}
+        AND t.delete_flag = '0'
+    </select>
+    <select id="findByPathStartsWithAndMethod" resultMap="BaseResultExMap" >
+        select
+        *
+        from t_backend_api t
+        where
+        t.path LIKE CONCAT(#{path,jdbcType=VARCHAR},'%')
+      AND  t.method=#{method,jdbcType=VARCHAR}
+        AND t.delete_flag = '0'
+    </select>
+    <resultMap id="BaseResultExMap2" type="com.songaw.generator.modules.auths.pojo.dto.BackendApiDto" extends="com.songaw.generator.modules.auths.mapper.BackendApiMapper.BaseResultMap">
+
+    </resultMap>
+    <select id="findBackendApiByMenuId" resultMap="BaseResultExMap2">
+      select * from t_backend_api t where t.id in (select DISTINCT s1.backend_api_id from t_menu_backend_api s1 where  s1.menu_id =#{menuId} )
+         AND t.delete_flag = '0'
+    </select>
+    <delete id="deleteMenuJoinBackend">
+      delete from t_menu_backend_api  where menu_id =#{menuId}
+    </delete>
+</mapper>

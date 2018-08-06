@@ -1,0 +1,71 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: fss
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 初始化大小，最小，最大
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall,log4j
+      ## druid 监控
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+      ## druid 监控页面
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: guige
+        login-password: guige#123
+  cache:
+    type: redis
+logging:
+  config: classpath:logback-spring.xml
+mybatis:
+    type-aliases-package: com.songaw.generator.modules.*.mapper
+    mapper-locations: classpath:/mappings/modules/**/*.xml
+
+
+mapper:
+  identity: MYSQL   # 取主键的方式
+  before: false      # 主键递增
+  not-empty: true   # 按主键插入或更新时，是否判断字符串 != ''
+  style: camelhumpandlowercase  # 实体类与表中字段的映射方式：驼峰转带下划线的小写格式
+  wrap-keyword: '{0}'   # 自动配置关键字，配置后不需要使用 @Column 指定别名
+  safe-delete: true   # 删除时必须设置查询条件
+  safe-update: true   # 更新时必须设置查询条件
+  use-java-type: true   # 是否映射Java基本数据类型
+  mappers: tk.mybatis.mapper.common.Mapper
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+# JWT
+jwt:
+  header: token
+  secret: mySecret
+  expiration: 604800
+  tokenHead: ""
+  route:
+    authentication:
+      path: login
+      refresh: refresh
+      register: "auth/register"
+
