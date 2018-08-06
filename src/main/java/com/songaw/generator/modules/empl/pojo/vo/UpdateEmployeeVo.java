@@ -7,8 +7,8 @@ import lombok.Data;
 /**
 * TODO
 *
-* @author
-* @date
+* @author songaw
+* @date 2018-00-06  17:00:03
 */
 @ApiModel(value = "UpdateEmployeeVo")
 @Data

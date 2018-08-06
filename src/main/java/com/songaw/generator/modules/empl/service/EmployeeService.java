@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 /**
 * TODO
 *
-* @author TODO
+* @author songaw
+* @date 2018-00-06  17:00:03
 */
 @Service
 public interface EmployeeService extends BaseService<Employee,Long> {
